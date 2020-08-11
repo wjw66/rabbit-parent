@@ -86,7 +86,7 @@ public class MessageBuilder {
         }
 
         if (StringUtils.isBlank(topic)) {
-            throw new MessageRuntimeException("topic cannot  be null");
+            throw new MessageRuntimeException("topic cannot be null");
         }
 
         return new Message(messageId, topic, routingKey, attributes, delayMills, messageType);
