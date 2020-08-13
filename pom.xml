@@ -14,6 +14,7 @@
         <module>rabbit-api</module>
         <module>rabbit-core-producer</module>
         <module>rabbit-task</module>
+        <module>rabbit-demo</module>
     </modules>
     <version>1.0-SNAPSHOT</version>
     <parent>
