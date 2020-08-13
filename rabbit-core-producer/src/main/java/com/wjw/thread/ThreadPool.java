@@ -18,7 +18,7 @@ public class ThreadPool {
 
     private static ExecutorService getThread =
             new ThreadPoolExecutor(THREAD_SIZE, THREAD_SIZE, 60L, TimeUnit.SECONDS,
-                    new LinkedBlockingQueue<Runnable>(QUEUE_SIZE), new ThreadPoolExecutor.AbortPolicy());
+                    new LinkedBlockingQueue<>(QUEUE_SIZE), new ThreadPoolExecutor.AbortPolicy());
 
     public static void submit(Runnable runnable) {
         getThread.submit(runnable);
