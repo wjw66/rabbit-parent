@@ -1,7 +1,7 @@
 package com.wjw.broker;
 
 import com.wjw.api.Message;
-import com.wjw.thread.ThreadPool;
+import com.wjw.thread.AppThreadPool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 @Component
 public class RabbitBrokerImpl implements RabbitBroker {
     @Resource
-    private RabbitTemplate rabbitTemplate;
+    private RabbitTemplateContainer rabbitTemplateContainer;
 
     /**
      * 发送迅速消息
@@ -64,13 +64,13 @@ public class RabbitBrokerImpl implements RabbitBroker {
      * @param message
      */
     private void sendKernel(Message message) {
-        ThreadPool.submit(() -> {
+        AppThreadPool.submit(() -> {
             CorrelationData correlationData =
                     //id + 时间戳
                     new CorrelationData(String.format("%s#%s", message.getMessageId(), System.currentTimeMillis()));
             String topic = message.getTopic();
             String routingKey = message.getRoutingKey();
-
+            RabbitTemplate rabbitTemplate = rabbitTemplateContainer.getRabbitTemplate(message);
             rabbitTemplate.convertAndSend(topic, routingKey, message, correlationData);
             log.info("发送消息,消息id = {}", message.getMessageId());
         });

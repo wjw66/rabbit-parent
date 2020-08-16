@@ -11,5 +11,11 @@
 
     <artifactId>rabbit-demo</artifactId>
 
-
+<dependencies>
+    <dependency>
+        <groupId>com.wjw</groupId>
+        <artifactId>rabbit-core-producer</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+</dependencies>
 </project>

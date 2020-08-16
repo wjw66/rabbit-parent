@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="rabbit-task" />
         <module name="rabbit-api" />
+        <module name="rabbit-demo" />
         <module name="rabbit-common" />
         <module name="rabbit-core-producer" />
       </profile>
@@ -19,6 +20,7 @@
       <module name="rabbit-api" options="-parameters" />
       <module name="rabbit-common" options="-parameters" />
       <module name="rabbit-core-producer" options="-parameters" />
+      <module name="rabbit-demo" options="-parameters" />
       <module name="rabbit-task" options="-parameters" />
     </option>
   </component>
