@@ -61,7 +61,7 @@ public class RabbitBrokerImpl implements RabbitBroker {
     /**
      * 发送消息的核心方法,使用异步线程池
      *
-     * @param message
+     * @param message 消息
      */
     private void sendKernel(Message message) {
         AppThreadPool.submit(() -> {
@@ -74,6 +74,5 @@ public class RabbitBrokerImpl implements RabbitBroker {
             rabbitTemplate.convertAndSend(topic, routingKey, message, correlationData);
             log.info("发送消息,消息id = {}", message.getMessageId());
         });
-
     }
 }

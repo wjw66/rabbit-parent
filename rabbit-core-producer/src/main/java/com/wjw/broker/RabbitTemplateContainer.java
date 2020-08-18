@@ -3,7 +3,12 @@ package com.wjw.broker;
 import com.google.common.base.Preconditions;
 import com.wjw.api.Message;
 import com.wjw.api.MessageType;
+import com.wjw.convert.GenericMessageConverter;
+import com.wjw.convert.RabbitMessageConverter;
 import com.wjw.exception.MessageRuntimeException;
+import com.wjw.serializer.Serializer;
+import com.wjw.serializer.SerializerFactory;
+import com.wjw.serializer.impl.JacksonSerializerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -26,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
+    private SerializerFactory serializerFactory = JacksonSerializerFactory.INSTANCE;
 
     /**
      * 创建MQ连接池
@@ -54,8 +60,12 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
         template.setRoutingKey(message.getRoutingKey());
         //重试
         template.setRetryTemplate(new RetryTemplate());
-        //序列化（重要）
-//        template.setMessageConverter();
+
+        //添加序列化，反序列化和converter对象（重要）
+        Serializer serializer = serializerFactory.create();
+        GenericMessageConverter converter = new GenericMessageConverter(serializer);
+        RabbitMessageConverter rabbitMessageConverter = new RabbitMessageConverter(converter);
+        template.setMessageConverter(rabbitMessageConverter);
 
         String messageType = message.getMessageType();
         //如果不是迅速消息，则需要添加回调函数
