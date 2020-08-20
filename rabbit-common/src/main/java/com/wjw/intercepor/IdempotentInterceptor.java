@@ -48,11 +48,10 @@ public class IdempotentInterceptor implements HandlerInterceptor {
         if (Objects.nonNull(annotation)) {
             try {
                 return tokenService.checkToken(request);
-            } catch (IdempotentException e){
-                log.error("重复校验",e);
+            } catch (IdempotentException e) {
+                log.error("重复校验", e);
                 throw e;
             }
-
         }
         return true;
     }
