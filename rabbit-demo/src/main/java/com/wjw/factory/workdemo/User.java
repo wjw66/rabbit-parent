@@ -2,6 +2,7 @@ package com.wjw.factory.workdemo;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public class User {
     private Integer uid;
     private String name;
     private Integer age;
+    private BigDecimal money;
     private List<ScoreData> scoreDataList;
 
 

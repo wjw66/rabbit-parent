@@ -68,7 +68,7 @@ public class DataVO {
      *
      * @return
      */
-    public static void getFiledValue(Object obj, Map<String, Object> map, Integer num) {
+    private static void getFiledValue(Object obj, Map<String, Object> map, Integer num) {
         //获取类属性
         Field[] fields = obj.getClass().getDeclaredFields();
         try {
@@ -95,6 +95,9 @@ public class DataVO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public static void getFiledValue(Object obj, Map<String, Object> map) {
+        getFiledValue(obj, map, null);
     }
 }
