@@ -2,13 +2,19 @@ package com.wjw.broker;
 
 import com.wjw.api.Message;
 import com.wjw.api.MessageType;
+import com.wjw.constant.BrokerMessageConst;
+import com.wjw.constant.BrokerMessageStatus;
+import com.wjw.entity.BrokerMessage;
+import com.wjw.service.MessageStoreServiceImpl;
 import com.wjw.thread.AppThreadPool;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author : wjwjava01@163.com
@@ -20,6 +26,8 @@ import javax.annotation.Resource;
 public class RabbitBrokerImpl implements RabbitBroker {
     @Resource
     private RabbitTemplateContainer rabbitTemplateContainer;
+    @Resource
+    private MessageStoreServiceImpl messageStoreService;
 
     /**
      * 发送迅速消息
@@ -49,6 +57,20 @@ public class RabbitBrokerImpl implements RabbitBroker {
      */
     @Override
     public void reliantSend(Message message) {
+        message.setMessageType(MessageType.RELIANT);
+        Date now = new Date();
+        BrokerMessage brokerMessage = new BrokerMessage();
+        brokerMessage.setMessageId(message.getMessageId());
+        brokerMessage.setStatus(BrokerMessageStatus.SENDING.getCode());
+        //添加下次的重试时间
+        brokerMessage.setNextRetry(DateUtils.addMinutes(now, BrokerMessageConst.TIMEOUT));
+        brokerMessage.setCreateTime(now);
+        brokerMessage.setUpdateTime(now);
+        brokerMessage.setMessage(message);
+        //消息入库
+        messageStoreService.insert(brokerMessage);
+        //消息发送
+        sendKernel(message);
 
     }
 

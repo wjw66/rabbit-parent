@@ -9,6 +9,7 @@ import com.wjw.exception.MessageRuntimeException;
 import com.wjw.serializer.Serializer;
 import com.wjw.serializer.SerializerFactory;
 import com.wjw.serializer.impl.JacksonSerializerFactory;
+import com.wjw.service.MessageStoreServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -31,7 +32,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
-    private SerializerFactory serializerFactory = JacksonSerializerFactory.INSTANCE;
+    @Resource
+    private MessageStoreServiceImpl messageStoreService;
+
+    private final SerializerFactory serializerFactory = JacksonSerializerFactory.INSTANCE;
 
     /**
      * 创建MQ连接池
@@ -80,7 +84,7 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
     }
 
     /**
-     * 具体的应答
+     * 确认的应答
      *
      * @param correlationData
      * @param ack
@@ -95,6 +99,8 @@ public class RabbitTemplateContainer implements RabbitTemplate.ConfirmCallback {
 
         //如果ack了，TODO 后续完善
         if (ack) {
+            //broker 返回ack，更新消息表对应消息状态为SEND_OK
+            messageStoreService.success(messageId);
             log.info("发送消息成功, messageId : {} ,sendTime : {}", messageId, sendTime);
         } else {
             log.error("发送消息错误, messageId : {} ,sendTime : {}", messageId, sendTime);
