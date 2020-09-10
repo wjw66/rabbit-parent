@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * @author : wangjianwei
  * @version : 1.0
  * @date : 2020/9/9 14:58
- * @deprecated : 读取数据库连接资源
+ * @description : 读取数据库连接资源
  **/
 
 @Slf4j

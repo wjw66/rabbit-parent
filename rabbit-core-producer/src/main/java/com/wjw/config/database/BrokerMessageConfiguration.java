@@ -15,7 +15,7 @@ import javax.sql.DataSource;
  * @author : wangjianwei
  * @version : 1.0
  * @date : 2020/9/9 15:45
- * @deprecated : 项目启动时执行sql，进行数据库表结构创建
+ * @description  : 项目启动时执行sql，进行数据库表结构创建
  **/
 @Slf4j
 @Configuration
