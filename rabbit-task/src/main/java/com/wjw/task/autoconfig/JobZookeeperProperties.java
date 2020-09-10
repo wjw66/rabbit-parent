@@ -26,7 +26,7 @@ public class JobZookeeperProperties {
     /**
      * 最大重试次数
      */
-    private String maxRetries = "3";
+    private int maxRetries = 3;
     /**
      * 连接超时时间
      * 单位：毫秒
@@ -51,5 +51,5 @@ public class JobZookeeperProperties {
      * 连接Zookeeper的权限令牌
      * 缺省为不需要权限验证
      */
-    private String digest;
+    private String digest = "";
 }
