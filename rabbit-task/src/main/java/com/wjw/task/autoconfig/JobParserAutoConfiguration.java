@@ -2,6 +2,7 @@ package com.wjw.task.autoconfig;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Slf4j
 @Configuration
+@EnableConfigurationProperties(JobZookeeperProperties.class)
 //表示配置文件中有 xx 前缀和 xx 属性才会加载配置（默认会自动加载）
 @ConditionalOnProperty(prefix = "elastic.job.zk", name = {"namespace", "serverLists"}, matchIfMissing = false)
 //@EnableConfigurationProperties(JobZookeeperProperties.class)

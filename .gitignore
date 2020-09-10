@@ -30,6 +30,7 @@ hs_err_pid*
 # IntelliJ project files
 .idea
 *.iml
+*.*.iml
 out
 gen
 ### Maven template
@@ -45,3 +46,4 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+/.idea/

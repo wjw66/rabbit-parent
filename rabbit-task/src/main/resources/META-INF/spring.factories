@@ -1,3 +1,3 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.wjw.task.autoconfigure.JobParserAutoConfiguration
+com.wjw.task.autoconfig.JobParserAutoConfiguration
